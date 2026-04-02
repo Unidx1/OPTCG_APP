@@ -33,7 +33,8 @@ export default function RootLayout({
           <h1 className="text-xl font-bold">Deck Builder</h1>
           <nav className = "flex gap-4">
             <Link href="/">Home</Link>
-            <Link href="/decks">Deck</Link>
+            <Link href="/Decks">Decks</Link>
+            <Link href="/Card_List">Card List</Link>
           </nav>
         </header>
 

@@ -1,11 +1,16 @@
 "use client"
 import { useState } from "react"
 
-export default function SearchBar() {
+export default function SearchBar({onSearch}: {onSearch: (searchTerm: string) => void}) {
     const [searchTerm, setSearchTerm] = useState("")
 
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        onSearch(searchTerm)
+    }
+
     return (
-        <>
+        <form onSubmit={handleSubmit}>
             <input
                 type="text"
                 placeholder="Search for a specific card"
@@ -13,7 +18,6 @@ export default function SearchBar() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-30% p-2 border border-gray-300 rounded-md mb-4"
             />
-            <button className="px-4 py-2 bg-gray-500 text-white rounded-md">Submit</button>
-        </>
+        </form>
     )
 }

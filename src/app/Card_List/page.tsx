@@ -2,14 +2,8 @@
 
 import SearchBar from "./search_bar"
 import { useState } from "react"
-import card_List from "./card_List"
-
-type Card = {
-  id: number
-  number: string
-  name: string
-  img: string
-}
+import CardListElement from "./card_List"
+import {Card, ApiCard} from "./card"
 
 export default function Card_List() {
 
@@ -19,16 +13,23 @@ export default function Card_List() {
     const res = await fetch(`/api/cards?search=${searchTerm}`)
     const data = await res.json()
 
-    setCards(data)
+    setCards(data.map((card: ApiCard)=> {
+      return{
+          id: card.id,
+          number: card.card_number,
+          name: card.card_name,
+          image: card.image
+        }
+    }))
+
+    console.log(cards)
   }
 
   return (
-    <div>
+    <div className="w-screen">
       <SearchBar onSearch={handleSubmit} />
       <h1 className="ml-4">Card List Page</h1>
-      <ul className="ml-4 space-y-4">
-        {card_List}
-      </ul>
+      <CardListElement cards={cards} />
     </div>
   )
-}
+} 

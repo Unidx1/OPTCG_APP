@@ -3,11 +3,13 @@
 import SearchBar from "./search_bar"
 import { useState } from "react"
 import CardListElement from "./card_List"
+import CardPopup from "./card_popup"
 import {Card, ApiCard} from "./card"
 
 export default function Card_List() {
 
   const [cards, setCards] = useState<Card[]>([])
+  const [selectedCard, selectCard] = useState<Card | null>(null)
 
   const handleSubmit = async (searchTerm: string) => {
     const res = await fetch(`/api/cards?search=${searchTerm}`)
@@ -18,18 +20,25 @@ export default function Card_List() {
           id: card.id,
           number: card.card_number,
           name: card.card_name,
-          image: card.image
+          image: card.image,
+          ApiCard: card
         }
     }))
 
     console.log(cards)
   }
 
+  const handleClick = (card: Card) => {
+    selectCard(card)
+    console.log(card)
+  }
+
   return (
-    <div className="w-screen">
+    <div className="w-full">
       <SearchBar onSearch={handleSubmit} />
       <h1 className="ml-4">Card List Page</h1>
-      <CardListElement cards={cards} />
+      <CardPopup card={selectedCard}/>
+      <CardListElement cards={cards} onClick={handleClick}/>
     </div>
   )
 } 

@@ -3,6 +3,7 @@ export type Card = {
   number: string
   name: string
   image: string
+  ApiCard: ApiCard
 }
 
 export type ApiCard = {

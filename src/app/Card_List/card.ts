@@ -11,6 +11,7 @@ export type ApiCard = {
     card_number: string
     card_name: string
     color: string
+    cost: number
     power: number
     life: number
     counter: number

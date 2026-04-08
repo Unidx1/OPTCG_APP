@@ -3,7 +3,7 @@ import { Card, ApiCard } from "./card"
 
 type Props = {
     cards: Card[],
-    onClick: (card: Card) => void;
+    onClick: (card: Card) => void
 }
 
 export default function CardListElement(prop: Props) {

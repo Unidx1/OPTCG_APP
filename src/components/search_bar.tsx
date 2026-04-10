@@ -1,22 +1,29 @@
 "use client"
 import { useState } from "react"
 
-export default function SearchBar({onSearch}: {onSearch: (searchTerm: string) => void}) {
+type Prop = {
+    onSearch: (searchTerm: string) => void,
+    classNameInput?: string
+    classNameForm?: string
+}
+
+export default function SearchBar(prop: Prop) {
     const [searchTerm, setSearchTerm] = useState("")
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        onSearch(searchTerm)
+        prop.onSearch(searchTerm)
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={prop.classNameForm}>
             <input
                 type="text"
                 placeholder="Search for a specific card"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-30% p-2 border border-gray-300 rounded-md mb-4"
+                className= {`w-full p-2 border placeholder:text-white border-gray-300 
+                    rounded-md mb-4 ${prop.classNameInput}`}
             />
         </form>
     )

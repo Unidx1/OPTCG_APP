@@ -1,5 +1,5 @@
 "use client"
-import { Card, ApiCard } from "./card"
+import { Card } from "../card"
 
 type Props = {
     cards: Card[],

@@ -1,10 +1,10 @@
 "use client"
 
-import SearchBar from "./search_bar"
+import SearchBar from "../../components/search_bar"
 import { useState } from "react"
 import CardListElement from "./card_List"
 import CardPopup from "./card_popup"
-import {Card, ApiCard} from "./card"
+import {Card, ApiCard} from "../card"
 
 export default function Card_List() {
 
@@ -39,7 +39,7 @@ export default function Card_List() {
 
   return (
     <div className="w-full">
-      <SearchBar onSearch={handleSubmit} />
+      <SearchBar onSearch={handleSubmit} className="ml-4"/>
       <h1 className="ml-4">Card List Page</h1>
       <CardPopup card={selectedCard} onExitClick={handleExit}/>
       <CardListElement cards={cards} onClick={handleClick}/>

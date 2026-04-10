@@ -1,4 +1,4 @@
-import {Card, ApiCard} from "./card"
+import {Card, ApiCard} from "../card"
 
 type Prop = {
     card: Card | null,
@@ -25,7 +25,7 @@ export default function CardPopup(prop: Prop){
             <p className="text-center text-black">{prop.card.ApiCard.effect}</p>
             </div>  
             <button onClick={() => prop.onExitClick()} className="absolute top-2 right-2.5 flex items-center justify-center 
-            w-6 h-6 text-white text-2xl hover:bg-white/20 rounded-full cursor-pointer">
+            w-6 h-6 text-white text-2xl bg-red-400 hover:bg-red-600 rounded-full cursor-pointer">
             X
             </button>
         </div>

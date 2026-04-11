@@ -3,6 +3,7 @@ import { Card } from "@/app/card"
 
 type Props = {
     cards: Card[],
+    onClick: (card: Card) => void
 }
 
 export default function CardListElement(prop: Props) {
@@ -12,7 +13,7 @@ export default function CardListElement(prop: Props) {
             {prop.cards.map((card) => (
                 <li key={card.id} className="min-w-0 hover:scale-110">
                     <h2 className="text-sm font-medium truncate">{card.name} {card.number}</h2>
-                    <img src={card.image} alt={card.name}/>
+                    <img onClick={() => prop.onClick(card)} src={card.image} alt={card.name}/>
                 </li>
             ))}
         </ul>

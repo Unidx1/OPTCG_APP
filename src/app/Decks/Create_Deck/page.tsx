@@ -4,6 +4,7 @@ import SearchBar from "@/components/search_bar"
 import { useState } from "react"
 import {Card, ApiCard} from "@/app/card"
 import CardListElement from "./card_List"
+import DeckZone from "./deck_zone"
 
 export default function Create_Deck() {
 
@@ -26,6 +27,31 @@ export default function Create_Deck() {
     console.log(cards)
   }
 
+  let deckList: {[key: string]: number} = {}
+  let displayDeckList: {[key: string]: number} = {}
+  let cardCount = 0
+
+  const handleCardClick = (card: Card) => {
+
+    cardCount == 51 && alert("You can only have 50 cards in your deck.")
+
+    if (deckList[card.number]) {
+        if (deckList[card.number] >= 4) {
+            alert("You can only have 4 copies of a card in your deck.")
+            return
+        }
+        if (card.ApiCard.type === "Leader"){
+            alert("You can only have 1 Leader card in your deck.")
+            return
+        }
+        deckList[card.number] += 1
+    } else {
+        deckList[card.number] = 1
+    }
+    displayDeckList[card.name] = displayDeckList[card.name] ? displayDeckList[card.name] + 1 : 1
+    cardCount += 1
+  }
+
   return (
     <div className="flex items-center w-screen gap-8">
       <div className="bg-gray-700 w-1/3 h-[calc(100vh-8rem)] ml-5 flex flex-col">
@@ -35,10 +61,10 @@ export default function Create_Deck() {
           <button className="bg-gray-400 flex-1 rounded-xl mr-5">Filter ↓</button>
         </div>
         <div className="outline-2 outline-red-600 flex-1 min-h-0 overflow-auto">
-          <CardListElement cards={cards}/>
+          <CardListElement onClick={handleCardClick} cards={cards}/>
         </div>
       </div>
-        <div className="bg-gray-400 opacity-30 flex-1 h-[calc(100vh-8rem)] mr-5"></div>
+      <DeckZone/>
     </div>
   )
 }

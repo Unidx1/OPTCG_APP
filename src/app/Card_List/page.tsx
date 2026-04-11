@@ -39,7 +39,7 @@ export default function Card_List() {
 
   return (
     <div className="w-full">
-      <SearchBar onSearch={handleSubmit} className="ml-4"/>
+      <SearchBar onSearch={handleSubmit}/>
       <h1 className="ml-4">Card List Page</h1>
       <CardPopup card={selectedCard} onExitClick={handleExit}/>
       <CardListElement cards={cards} onClick={handleClick}/>

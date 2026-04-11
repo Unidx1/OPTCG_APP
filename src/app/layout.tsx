@@ -29,7 +29,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-screen flex flex-col">
-        <header className="p-4 border-b flex justify-between shrink-0">
+        <header className="p-4 border-b flex justify-between shrink-0 h-16">
           <h1 className="text-xl font-bold">Deck Builder</h1>
           <nav className = "flex gap-4">
             <Link href="/">Home</Link>
@@ -38,7 +38,7 @@ export default function RootLayout({
           </nav>
         </header>
 
-        <main className="flex-1 flex">
+        <main className="flex-1 flex min-h-0">
           {children}
         </main>
       </body>

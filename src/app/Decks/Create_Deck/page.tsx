@@ -5,7 +5,7 @@ import { useState } from "react"
 import {Card, ApiCard} from "@/app/card"
 import CardListElement from "./card_List"
 import DeckZone from "./deck_zone"
-import { count } from "console"
+import SaveDeckButton from "./save_deck_button"
 
 type displayEntry = {
     count: number,
@@ -88,6 +88,36 @@ export default function Create_Deck() {
    })
   }
 
+  const handleSaveDeck = async () => {
+    const deckData = {
+      name: "New Deck",
+      cards: { 
+        deckList: deckList, 
+        displayDeckList: displayDeckList
+      }
+    }
+
+    fetch("/api/decks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(deckData)
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        alert("Deck saved successfully!")
+      } else {
+        alert("Error saving deck: " + data.error)
+      }
+    })
+    .catch(err => {
+      alert("Error saving deck: " + err.message)
+    })
+
+  }
+
   return (
     <div className="flex items-center w-screen gap-8">
 
@@ -101,10 +131,12 @@ export default function Create_Deck() {
           <CardListElement onClick={handleAddCardClick} cards={cards}/>
         </div>
       </div>
-
+      
       <div className="bg-gray-400 flex flex-col flex-1 h-[calc(100vh-8rem)] mr-5">
-        <div className="h-18 bg-amber-50">
-          <button className="bg-gray-400 rounded-xl mt-4 ml-4 px-5 py-2">Save Deck</button>
+        <div className="h-18 bg-gray-700 outline-2 outline-black">
+          <SaveDeckButton onSave={handleSaveDeck} />
+          <button className="bg-gray-500 rounded-xl mt-4 ml-4 px-5 py-2 hover: cursor-pointer">Copy Deck To Clipboard</button>
+          <button className="bg-gray-500 rounded-xl mt-4 ml-4 px-5 py-2 hover: cursor-pointer">Share Deck</button>
         </div>
         <DeckZone cardDisplay={displayDeckList} removeCard={handleRemoveCardClick}/>
       </div>

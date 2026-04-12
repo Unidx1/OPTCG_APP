@@ -2,34 +2,36 @@
 
 import { Card } from "@/app/card"
 
-type Props = {
-    card: Card,
-    addCard: (card: Card) => void
+type displayEntry = {
+    count: number,
+    card: Card
 }
 
-export default function DeckZone() {
 
-    let deckList: {[key: string]: number} = {}
-    let displayDeckList: {[key: string]: number} = {}
+type Props = {
+    cardDisplay: {[key: string]: displayEntry},
+    removeCard: (card: displayEntry) => void
+}
 
-    const handleAddCard = (card: Card) => {
-        if (deckList[card.id]) {
-            if (deckList[card.id] >= 4) {
-                alert("You can only have 4 copies of a card in your deck.")
-                return
-            }
-            deckList[card.id] += 1
-        } else {
-            deckList[card.id] = 1
-        }
-        displayDeckList[card.name] = displayDeckList[card.name] ? displayDeckList[card.name] + 1 : 1
+export default function DeckZone({ cardDisplay, removeCard }: Props) {
 
-
-    }
 
     return (
-        <div className="bg-gray-400 opacity-30 flex-1 h-[calc(100vh-8rem)] mr-5">
-
+        <div className="bg-gray-400 flex-1 h-[calc(100vh-8rem)] mr-5 overflow-auto">
+            <ul className="mt-5 px-4 grid grid-cols-8 gap-5">
+                {Object.values(cardDisplay).map((entry) => (
+                    <li 
+                    key={entry.card.id} 
+                    className="flex flex-col items-center">
+                        <img 
+                        src={entry.card.image} 
+                        alt={entry.card.name} 
+                        onClick={() => removeCard(entry)}
+                        className="Hover: cursor-pointer"/>
+                        <span>{entry.count}</span>
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 }

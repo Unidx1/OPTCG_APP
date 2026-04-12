@@ -5,10 +5,20 @@ import { useState } from "react"
 import {Card, ApiCard} from "@/app/card"
 import CardListElement from "./card_List"
 import DeckZone from "./deck_zone"
+import { count } from "console"
+
+type displayEntry = {
+    count: number,
+    card: Card
+}
 
 export default function Create_Deck() {
 
   const [cards, setCards] = useState<Card[]>([])
+  const [displayDeckList, setDisplayDeckList] = useState<{[key: string]: displayEntry}>({})
+  const [deckList, setDeckList] = useState<{[key: string]: number}>({})
+  const [cardCount, setCardCount] = useState<number>(0)
+  const [isLegal, setIsLegal] = useState<boolean>(false)
 
   const handleSubmit = async (searchTerm: string) => {
     const res = await fetch(`/api/cards?search=${searchTerm}`)
@@ -27,29 +37,55 @@ export default function Create_Deck() {
     console.log(cards)
   }
 
-  let deckList: {[key: string]: number} = {}
-  let displayDeckList: {[key: string]: number} = {}
-  let cardCount = 0
 
-  const handleCardClick = (card: Card) => {
-
-    cardCount == 51 && alert("You can only have 50 cards in your deck.")
+  const handleAddCardClick = (card: Card) => {
 
     if (deckList[card.number]) {
         if (deckList[card.number] >= 4) {
             alert("You can only have 4 copies of a card in your deck.")
             return
         }
-        if (card.ApiCard.type === "Leader"){
-            alert("You can only have 1 Leader card in your deck.")
-            return
-        }
-        deckList[card.number] += 1
+        setDeckList(prev => ({
+            ...prev,
+            [card.number]: prev[card.number] + 1
+        }))
     } else {
-        deckList[card.number] = 1
+        setDeckList(prev => ({
+            ...prev,
+            [card.number]: 1
+        }))
     }
-    displayDeckList[card.name] = displayDeckList[card.name] ? displayDeckList[card.name] + 1 : 1
-    cardCount += 1
+    setDisplayDeckList(prev => ({
+        ...prev,
+        [card.name]: prev[card.name] ? {...prev[card.name], count: prev[card.name].count + 1} : {count: 1, card}
+    }))
+    setCardCount(prev => prev + 1)
+  }
+
+  const handleRemoveCardClick = (entry: displayEntry) => {
+    const card = entry.card
+    setDisplayDeckList(prev => {
+      if (prev[card.name].count === 1) {
+          const {[card.name]: removedEntry, ...rest} = prev
+          return rest
+      } else{
+        return {
+          ...prev,
+          [card.name]: {...prev[card.name], count: prev[card.name].count - 1}
+        }
+      }
+    })
+    setDeckList(prev => {
+      if (prev[card.number] === 1) {
+        const {[card.number]: removedCount, ...rest} = prev
+        return rest
+      } else {
+        return {
+          ...prev,
+          [card.number]: prev[card.number] - 1
+        }
+      }
+   })
   }
 
   return (
@@ -60,11 +96,11 @@ export default function Create_Deck() {
           classNameForm="w-2/3"/>
           <button className="bg-gray-400 flex-1 rounded-xl mr-5">Filter ↓</button>
         </div>
-        <div className="outline-2 outline-red-600 flex-1 min-h-0 overflow-auto">
-          <CardListElement onClick={handleCardClick} cards={cards}/>
+        <div className="outline-2 flex-1 min-h-0 overflow-auto">
+          <CardListElement onClick={handleAddCardClick} cards={cards}/>
         </div>
       </div>
-      <DeckZone/>
+      <DeckZone cardDisplay={displayDeckList} removeCard={handleRemoveCardClick}/>
     </div>
   )
 }

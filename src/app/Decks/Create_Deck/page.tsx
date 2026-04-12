@@ -90,17 +90,25 @@ export default function Create_Deck() {
 
   return (
     <div className="flex items-center w-screen gap-8">
+
       <div className="bg-gray-700 w-1/3 h-[calc(100vh-8rem)] ml-5 flex flex-col">
         <div className="flex items-center gap-10 ">
           <SearchBar onSearch={handleSubmit} classNameInput="ml-4 mt-4 bg-gray-400" 
           classNameForm="w-2/3"/>
           <button className="bg-gray-400 flex-1 rounded-xl mr-5">Filter ↓</button>
         </div>
-        <div className="outline-2 flex-1 min-h-0 overflow-auto">
+        <div className=" flex-1 min-h-0 overflow-auto">
           <CardListElement onClick={handleAddCardClick} cards={cards}/>
         </div>
       </div>
-      <DeckZone cardDisplay={displayDeckList} removeCard={handleRemoveCardClick}/>
+
+      <div className="bg-gray-400 flex flex-col flex-1 h-[calc(100vh-8rem)] mr-5">
+        <div className="h-18 bg-amber-50">
+          <button className="bg-gray-400 rounded-xl mt-4 ml-4 px-5 py-2">Save Deck</button>
+        </div>
+        <DeckZone cardDisplay={displayDeckList} removeCard={handleRemoveCardClick}/>
+      </div>
+      
     </div>
   )
 }

@@ -17,7 +17,7 @@ export default function DeckZone({ cardDisplay, removeCard }: Props) {
 
 
     return (
-        <div className="bg-gray-400 flex-1 h-[calc(100vh-8rem)] mr-5 overflow-auto">
+        <div className="overflow-y-auto flex-1">
             <ul className="mt-5 px-4 grid grid-cols-8 gap-5">
                 {Object.values(cardDisplay).map((entry) => (
                     <li 
